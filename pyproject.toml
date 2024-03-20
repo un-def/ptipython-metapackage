@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ptipython-metapackage"
-version = "0.9.0"
+version = "1.0.0"
 description = "ptipython metapackage"
 readme = "README.md"
 license = {text = "BSD-3-Clause"}
@@ -21,7 +21,7 @@ classifiers = [
 ]
 keywords = ["ptipython", "ptpython", "ipython"]
 requires-python = ">= 3.8"
-dependencies = ["ptpython == 2.0.6", "ipython == 7.34.0"]
+dependencies = ["ptpython == 3.0.26", "ipython == 8.22.2"]
 
 [project.scripts]
 ptipython = "ptpython.entry_points.run_ptipython:run"
