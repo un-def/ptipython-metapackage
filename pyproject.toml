@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ptipython-metapackage"
+version = "0.9.0"
+description = "ptipython metapackage"
+readme = "README.md"
+license = {text = "BSD-3-Clause"}
+authors = [
+    {name = "Dmitry Meyer", email = "me@undef.im"},
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+keywords = ["ptipython", "ptpython", "ipython"]
+requires-python = ">= 3.8"
+dependencies = ["ptpython == 2.0.6", "ipython == 7.34.0"]
+
+[project.scripts]
+ptipython = "ptpython.entry_points.run_ptipython:run"
+ptpython = "ptpython.entry_points.run_ptpython:run"
+ipython = "IPython:start_ipython"
+
+[project.urls]
+Homepage = "https://github.com/un-def/ptipython-metapackage"
+Repository = "https://github.com/un-def/ptipython-metapackage.git"
+Changelog = "https://github.com/un-def/ptipython-metapackage/releases"
+Issues = "https://github.com/un-def/ptipython-metapackage/issues"
+
+[tool.setuptools]
+include-package-data = false
+packages = []
+py-modules = []

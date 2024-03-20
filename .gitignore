@@ -1,0 +1,9 @@
+.*
+!.gitignore
+!.github/
+
+*.py[co]
+
+/build/
+/*.egg-info/
+/dist/

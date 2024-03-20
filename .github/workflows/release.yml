@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  schedule:
+    - cron: '15 0 * * *'
+  workflow_dispatch:
+
+jobs:
+
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.checker.outputs.version }}
+      ptpython: ${{ steps.checker.outputs.ptpython }}
+      ipython: ${{ steps.checker.outputs.ipython }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          pip install tomlkit
+      - id: checker
+        run: |
+          python checker.py > $GITHUB_OUTPUT
+      - if: ${{ steps.checker.outputs.version }}
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@users.noreply.github.com
+          git add pyproject.toml
+          git commit -m 'Release ${{ steps.checker.outputs.version }}'
+          git push origin master
+          git tag -a -m ${{ steps.checker.outputs.version }} ${{ steps.checker.outputs.version }}
+          git push origin ${{ steps.checker.outputs.version }}
+
+  build:
+    needs: check
+    runs-on: ubuntu-latest
+    if: ${{ needs.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check.outputs.version }}
+      - run: |
+          pip install build twine
+          python -m build
+          twine upload dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+
+  release:
+    needs: check
+    runs-on: ubuntu-latest
+    if: ${{ needs.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          gh release create $VERSION --latest --notes "
+            * ptpython $PTPYTHON
+            * ipython $IPYTHON"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.check.outputs.version }}
+          PTPYTHON: ${{ needs.check.outputs.ptpython }}
+          IPYTHON: ${{ needs.check.outputs.ipython }}
