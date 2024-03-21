@@ -20,7 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
 ]
 keywords = ["ptipython", "ptpython", "ipython"]
-requires-python = ">= 3.8"
+requires-python = ">= 3.10"
 dependencies = ["ptpython == 3.0.26", "ipython == 8.22.2"]
 
 [project.scripts]
