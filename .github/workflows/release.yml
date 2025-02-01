@@ -41,7 +41,7 @@ jobs:
         with:
           ref: ${{ needs.check.outputs.version }}
       - run: |
-          pip install build twine
+          pip install --upgrade build packaging twine
           python -m build
           twine upload dist/*
         env:
